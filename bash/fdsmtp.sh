@@ -34,6 +34,7 @@ smtp () {
     echo "$r"
     case "$r:$auth:$step" in
       "220 "*)                      echo -ne "EHLO ${from#*@}\r\n" >&4                                 ;;
+      "250 "[A-Za-z]*:NOLOGIN:0)    echo -ne "MAIL FROM: <$from>\r\n" >&4              ; let step=3    ;;
       "250 "[A-Za-z]*:LOGIN:0)      echo -ne "AUTH LOGIN\r\n" >&4                      ; let step++    ;;
       "250 "[A-Za-z]*:PLAIN:0)      echo -ne "AUTH PLAIN\r\n" >&4                      ; let step++    ;;
       "250 "[A-Za-z]*:CRAM-MD5:0)   echo -ne "AUTH CRAM-MD5\r\n" >&4                   ; let step++    ;;
