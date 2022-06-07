@@ -59,7 +59,7 @@ begin
 
   list.collect{|x| x.name}.each do |folder|
     begin
-      msg = imap.status(folder, ['MESSAGES'])``
+      msg = imap.status(folder, ['MESSAGES'])
       array << msg['MESSAGES']
       puts "#{folder} #{msg['MESSAGES']}" unless total_only
     rescue
