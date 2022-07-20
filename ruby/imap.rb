@@ -44,6 +44,12 @@ opts.each do |opt, arg|
       total_only = true
     when '--login-only'
       login_only = true
+    when '--login'
+      auth_type = 'LOGIN'
+    when '--plain'
+      auth_type = 'PLAIN'
+    when '--cram-md5'
+      auth_type = 'CRAM-MD5'
   end
 end
 
