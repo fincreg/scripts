@@ -3,6 +3,30 @@
 #require openssl
 #require base64
 
+[[ $# -lt 5 ]] && {
+  cat <<'EOF'
+Usage: fdsmtp.sh auth host port user pass [rcpt] [subject]
+
+  auth      AUTH method: NOLOGIN, LOGIN, PLAIN, CRAM-MD5, or LOGINONLY
+  host      SMTP server
+  port      SMTP port
+  user      Username/email for authentication
+  pass      Password
+  rcpt      Recipient email (default: same as user, self sending)
+  subject   Email subject (default: "TEST Message")
+
+Example (with authentication):
+  ./fdsmtp.sh LOGIN smtp.example.com 25 user@example.com password
+
+Example (no authentication):
+  ./fdsmtp.sh NOLOGIN smtp.example.com 25 user@example.com dummy
+
+Example (auth only, no sending):
+  ./fdsmtp.sh LOGINONLY smtp.example.com 25 user@example.com password
+EOF
+  exit 1
+}
+
 auth=$1
 host=$2
 port=$3
@@ -53,7 +77,6 @@ smtp () {
       "250 2.1.5"*:*:4)             echo -ne "DATA\r\n" >&4; sleep .5;\
                                     echo -ne "$data\r\n.\r\n" >&4                      ; ((step++)) ;;
       "250 2.0.0"*:*:5)             echo -ne "QUIT\r\n" >&4                            ; ((step++)) ;;
-      "235 "*:*:9)                  echo -ne "QUIT\r\n" >&4                            ; ((step++)) ;;
       "250-"*)                                                                                      ;;
       "221 "*)                                                                                      ;;
     esac

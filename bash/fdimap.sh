@@ -1,5 +1,26 @@
 #!/bin/bash
 
+[[ $# -lt 5 ]] && {
+  cat <<'EOF'
+Usage: fdimap.sh auth host port user pass [header] [value]
+
+  auth      (reserved, pass any value)
+  host      IMAP server
+  port      IMAP port (143 only implemented at the moment)
+  user      Username/email for authentication
+  pass      Password
+  header    Optional: Header name to search (e.g., X-Test-Id)
+  value     Optional: Header value to search for
+
+Example:
+  ./fdimap.sh LOGIN imap.example.com 143 user@example.com password Subject 'TEST abc123'
+
+Result:
+  Searches for the message with header "Subject: TEST abc123" and prints it
+EOF
+  exit 1
+}
+
 auth=$1
 host=$2
 port=$3
