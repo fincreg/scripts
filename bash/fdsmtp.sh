@@ -77,6 +77,7 @@ smtp () {
       "250 2.1.5"*:*:4)             echo -ne "DATA\r\n" >&4; sleep .5;\
                                     echo -ne "$data\r\n.\r\n" >&4                      ; ((step++)) ;;
       "250 2.0.0"*:*:5)             echo -ne "QUIT\r\n" >&4                            ; ((step++)) ;;
+      "235 "*:*:9)                  echo -ne "QUIT\r\n" >&4                            ; ((step++)) ;;
       "250-"*)                                                                                      ;;
       "221 "*)                                                                                      ;;
     esac
